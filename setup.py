@@ -12,7 +12,8 @@ setup(
         'opencv-python==4.8.1.78',
         'tqdm==4.66.1',
         'numpy==1.26.1',
-        'pandas==2.1.2'
+        'pandas==2.1.2',
+        'torch==2.1.0'
     ],
     entry_points={
         'console_scripts': [
