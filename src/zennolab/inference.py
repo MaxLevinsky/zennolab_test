@@ -17,9 +17,9 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 def inference(data_dir: str, output_dir: str, box_trs: float = 0.35, text_trs: float = 0.25, write_images: bool = False):
-    root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
+    root_gd = os.path.join('/home/src', 'GroundingDINO')
     ogc = os.path.join(root_gd, 'groundingdino/config/GroundingDINO_SwinT_OGC.py')
-    weights = os.path.join(root_gd, 'weights/groundingdino_swint_ogc.pth')
+    weights = os.path.join(root_gd, 'groundingdino_swint_ogc.pth')
     model = load_model(model_config_path=ogc, model_checkpoint_path=weights)
     data = filter_out_empty_jsons(data_dir=data_dir)
 
