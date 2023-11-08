@@ -41,7 +41,7 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: f
             device=device,
         )
         try:
-            max_logit = np.argmax(logits.tolist())
+            # max_logit = np.argmax(logits.tolist())
             pred_boxes = boxes.tolist()
             # print(pred_boxes)
             # print(logits)
