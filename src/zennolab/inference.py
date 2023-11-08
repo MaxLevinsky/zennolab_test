@@ -16,10 +16,12 @@ warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 
 
-def inference(data_dir: str, output_dir: str, box_trs: float = 0.35, text_trs: float = 0.25, write_images: bool = False):
-    root_gd = os.path.join('/home/src', 'GroundingDINO')
-    ogc = os.path.join(root_gd, 'groundingdino/config/GroundingDINO_SwinT_OGC.py')
-    weights = os.path.join(root_gd, 'groundingdino_swint_ogc.pth')
+def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: float = 0.25,
+              write_images: bool = True, device: str = 'cpu'):
+    # root_gd = os.path.join('/home/src', 'GroundingDINO')
+    root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
+    ogc = os.path.join(root_gd, 'groundingdino/config/GroundingDINO_SwinB_cfg.py')  # GroundingDINO_SwinT_OGC, GroundingDINO_SwinB_cfg
+    weights = os.path.join(root_gd, 'weights/groundingdino_swinb_cogcoor.pth')  # groundingdino_swint_ogc, groundingdino_swinb_cogcoor
     model = load_model(model_config_path=ogc, model_checkpoint_path=weights)
     data = filter_out_empty_jsons(data_dir=data_dir)
 
@@ -28,7 +30,7 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.35, text_trs: f
     for idx, row in tqdm(data.iterrows()):
         image_path = row['image_path']
         promt = row['promt']
-        # print(promt)
+        print(promt, '<-----------PROMT-------------')
         image_source, image = load_image(image_path)
         boxes, logits, phrases = predict(
             model=model,
@@ -36,14 +38,19 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.35, text_trs: f
             caption=promt,
             box_threshold=box_trs,
             text_threshold=text_trs,
-            device='cpu',
+            device=device,
         )
-        max_logit = np.argmax(logits.tolist())
-        pred_boxes = boxes.tolist()
-        # print(pred_boxes)
-        # print(max_logit)
-        data['pred_bbox'][idx] = pred_boxes
-        data['bbox'][idx] = pred_boxes[max_logit]
+        try:
+            max_logit = np.argmax(logits.tolist())
+            pred_boxes = boxes.tolist()
+            # print(pred_boxes)
+            # print(logits)
+            # print(phrases)
+            # ph = phrases.index('head')
+            data['pred_bbox'][idx] = pred_boxes
+            data['bbox'][idx] = pred_boxes[-1]
+        except Exception as err:
+            print(err)
 
         if write_images:
             annotated_frame = annotate(image_source=image_source, boxes=boxes, logits=logits, phrases=phrases)
@@ -62,9 +69,8 @@ def get_euclidian_distance(x1, y1, x2, y2):
     return abs(np.sqrt((x2 - x1)**2 + (y2 - y1)**2))
 
 
-def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1):
-    df = inference(data_dir=input_dir, output_dir=output_dir)
-    print(df)
+def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1, device: str = 'cpu'):
+    df = inference(data_dir=input_dir, output_dir=output_dir, device=device)
 
     df['distance'] = None
     df['bool_metric'] = None
@@ -86,9 +92,9 @@ def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1):
     return df
 
 
-def calculate_and_save_metric(input_dir: str, output_dir: str):
+def calculate_and_save_metric(input_dir: str, output_dir: str, device):
     log = []
-    df = postprocess(input_dir, output_dir)
+    df = postprocess(input_dir=input_dir, output_dir=output_dir, device=device)
     true_metric = len(df[df['bool_metric'] == True])
 
     mean_metric = true_metric / len(df)
@@ -108,7 +114,7 @@ def calculate_and_save_metric(input_dir: str, output_dir: str):
 
 if __name__ == '__main__':
     now = dt.datetime.now()
-    calculate_and_save_metric('/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/input/the_center_of_the_gemstone',
-                              '/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/output')
+    calculate_and_save_metric('/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/input',
+                              '/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/output', 'cpu')
     print(dt.datetime.now() - now)
 
