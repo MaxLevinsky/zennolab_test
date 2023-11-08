@@ -39,12 +39,15 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.35, text_trs: f
             text_threshold=text_trs,
             device=device,
         )
-        max_logit = np.argmax(logits.tolist())
-        pred_boxes = boxes.tolist()
-        # print(pred_boxes)
-        # print(max_logit)
-        data['pred_bbox'][idx] = pred_boxes
-        data['bbox'][idx] = pred_boxes[max_logit]
+        try:
+          max_logit = np.argmax(logits.tolist())
+          pred_boxes = boxes.tolist()
+          # print(pred_boxes)
+          # print(max_logit)
+          data['pred_bbox'][idx] = pred_boxes
+          data['bbox'][idx] = pred_boxes[max_logit]
+        except Exception as err:
+          print(err)
 
         if write_images:
             annotated_frame = annotate(image_source=image_source, boxes=boxes, logits=logits, phrases=phrases)
