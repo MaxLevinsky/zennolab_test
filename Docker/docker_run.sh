@@ -11,4 +11,4 @@ docker run --rm \
 	--mount type=bind,source=${input_dir},target=/zennolab/input \
 	--mount type=bind,source=${output_dir},target=/zennolab/output \
 	zennolab:latest \
-	run_evaluation -i /zennolab/input -o /zennolab/output
+	run_evaluation -i /zennolab/input -o /zennolab/output -d 'cpu'
