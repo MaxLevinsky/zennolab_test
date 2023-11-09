@@ -7,7 +7,6 @@ import pandas as pd
 from tqdm import tqdm
 import datetime as dt
 from pathlib import Path
-from ultralytics import SAM
 
 from groundingdino.util.inference import load_model, load_image, predict, annotate
 from preprocess import filter_out_empty_jsons
