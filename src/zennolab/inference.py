@@ -102,6 +102,7 @@ def calculate_and_save_metric(input_dir: str, output_dir: str, device):
     df.to_csv(os.path.join(output_dir, 'postprocess_results.csv'))
     true_metric = len(df[df['bool_metric'] == True])
 
+    df = df.dropna()
     mean_metric = true_metric / len(df)
     mean_ed = np.mean(df['distance'].to_list())
 
