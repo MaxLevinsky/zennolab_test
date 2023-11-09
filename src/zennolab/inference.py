@@ -77,10 +77,14 @@ def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1, device
     df['bool_metric'] = None
 
     for idx, item in df.iterrows():
-        bbox = item['bbox'] #ast.literal_eval(item['bbox'])
+        bbox = item['bbox']
         true_coordinates = item['true_coordinates'] #ast.literal_eval(item['true_coordinates'])
 
-        x_pred, y_pred = float(bbox[0]), float(bbox[1]) #get_center_bbox(float(bbox[0]), float(bbox[1]), float(bbox[2]), float(bbox[3]))
+        try:
+            x_pred, y_pred = float(bbox[0]), float(bbox[1])
+        except Exception as err:
+            print(err)
+            continue
         x_true, y_true = true_coordinates['x'], true_coordinates['y']
         ed = get_euclidian_distance(x_pred, y_pred, x_true, y_true)
         df['distance'][idx] = ed
