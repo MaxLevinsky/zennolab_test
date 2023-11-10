@@ -28,7 +28,6 @@ RUN groupadd -g $GID user && \
     echo "user:user" | chpasswd && \
     mkdir -p /home/user/project
 
-
 # ===========================================================
 # Create new directories for mounting
 # -----------------------------------------------------------

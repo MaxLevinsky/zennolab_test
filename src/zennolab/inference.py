@@ -29,7 +29,7 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: f
     root_gd = os.path.join('/home/src', 'GroundingDINO')
     # root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
     ogc = os.path.join(root_gd, 'groundingdino/config/GroundingDINO_SwinB_cfg.py')  # GroundingDINO_SwinT_OGC, GroundingDINO_SwinB_cfg
-    weights = os.path.join(root_gd, 'weights/groundingdino_swinb_cogcoor.pth')  # groundingdino_swint_ogc, groundingdino_swinb_cogcoor
+    weights = os.path.join(root_gd, 'groundingdino_swinb_cogcoor.pth')  # groundingdino_swint_ogc, groundingdino_swinb_cogcoor
     model = load_model(model_config_path=ogc, model_checkpoint_path=weights)
     data = filter_out_empty_jsons(data_dir=data_dir)
 

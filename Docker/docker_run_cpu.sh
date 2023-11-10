@@ -7,7 +7,7 @@ read -r -p "Input dir: " input_dir
 read -r -p "Output dir: " output_dir
 
 
-docker run --gpus all --rm \
+docker run --rm \
 	--mount type=bind,source=${input_dir},target=/zennolab/input,readonly \
 	--mount type=bind,source=${output_dir},target=/zennolab/output \
 	zennolab:latest \
