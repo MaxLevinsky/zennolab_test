@@ -7,7 +7,7 @@
 1. git clone https://github.com/MaxLevinsky/zennolab_test.git
 2. cd zennolab_test
 3. bash Docker/docker_build.sh
-4. bash Docker/docker_run.sh
+4. ДЛЯ ЗАПУСКА на ГПУ: bash Docker/docker_run.sh
 во время выполения docker_run.sh нужно будет указать директорию со входными данными и директорию для артефактов работы скрипта
 
 пример входных данных
@@ -19,3 +19,4 @@
         ...
 
 скрипт docker_run.sh запускается с параметром --gpus all, если нужно ограничить кол-во карт, этот параметр нужно исправить.
+4. ДЛЯ ЗАПУСКА на CPU: bash Docker/docker_run_cpu.sh
