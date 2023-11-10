@@ -19,4 +19,5 @@
         ...
 
 скрипт docker_run.sh запускается с параметром --gpus all, если нужно ограничить кол-во карт, этот параметр нужно исправить.
-4. ДЛЯ ЗАПУСКА на CPU: bash Docker/docker_run_cpu.sh
+
+5. ДЛЯ ЗАПУСКА на CPU: bash Docker/docker_run_cpu.sh
