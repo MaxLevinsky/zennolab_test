@@ -1,10 +1,10 @@
 # zennolab_test
 
 ## общий подход
-применяем zero-shot object detection (groundingDino), из полученных bounding boxes счтаем их центры и считаем метрику
+применяем zero-shot object detection (**GroundingDino*), из полученных bounding boxes счтаем их центры и считаем метрику
 
 ## как запустить
-1. git clone https://github.com/MaxLevinsky/zennolab_test.git
+1. *git clone https://github.com/MaxLevinsky/zennolab_test.git*
 2. *cd zennolab_test*
 3. *bash Docker/docker_build.sh*
 4. **ДЛЯ ЗАПУСКА на ГПУ**: *bash Docker/docker_run.sh*
