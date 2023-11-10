@@ -1,12 +1,13 @@
+import datetime as dt
 import os
 import warnings
 
 import cv2
 import numpy as np
 import pandas as pd
+# from pathlib import Path
+import torch
 from tqdm import tqdm
-import datetime as dt
-from pathlib import Path
 
 from groundingdino.util.inference import load_model, load_image, predict, annotate
 from preprocess import filter_out_empty_jsons
@@ -17,9 +18,16 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 
 def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: float = 0.25,
-              write_images: bool = False, device: str = 'cpu'):
-    # root_gd = os.path.join('/home/src', 'GroundingDINO')
-    root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
+              write_images: bool = False):
+
+    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        device = 'cuda'
+    else:
+        device = 'cpu'
+
+    root_gd = os.path.join('/home/src', 'GroundingDINO')
+    # root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
     ogc = os.path.join(root_gd, 'groundingdino/config/GroundingDINO_SwinB_cfg.py')  # GroundingDINO_SwinT_OGC, GroundingDINO_SwinB_cfg
     weights = os.path.join(root_gd, 'weights/groundingdino_swinb_cogcoor.pth')  # groundingdino_swint_ogc, groundingdino_swinb_cogcoor
     model = load_model(model_config_path=ogc, model_checkpoint_path=weights)
@@ -35,7 +43,7 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: f
             boxes, logits, phrases = predict(
                 model=model,
                 image=image,
-                caption='squirrels . head',
+                caption=promt,
                 box_threshold=box_trs,
                 text_threshold=text_trs,
                 device=device,
@@ -68,8 +76,8 @@ def get_euclidian_distance(x1, y1, x2, y2):
     return abs(np.sqrt((x2 - x1)**2 + (y2 - y1)**2))
 
 
-def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1, device: str = 'cpu'):
-    df = inference(data_dir=input_dir, output_dir=output_dir, device=device)
+def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1):
+    df = inference(data_dir=input_dir, output_dir=output_dir)
     df.to_csv(os.path.join(output_dir, 'inference_results.csv'))
 
     df['distance'] = None
@@ -96,9 +104,9 @@ def postprocess(input_dir: str, output_dir: str, metric_trs: float = 0.1, device
     return df
 
 
-def calculate_and_save_metric(input_dir: str, output_dir: str, device):
+def calculate_and_save_metric(input_dir: str, output_dir: str):
     log = []
-    df = postprocess(input_dir=input_dir, output_dir=output_dir, device=device)
+    df = postprocess(input_dir=input_dir, output_dir=output_dir)
     df.to_csv(os.path.join(output_dir, 'postprocess_results.csv'))
     true_metric = len(df[df['bool_metric'] == True])
 
@@ -121,7 +129,7 @@ def calculate_and_save_metric(input_dir: str, output_dir: str, device):
 if __name__ == '__main__':
     now = dt.datetime.now()
     calculate_and_save_metric('/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/input/sam',
-                              '/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/output', 'cpu')
+                              '/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/output')
     print(dt.datetime.now() - now)
 
 

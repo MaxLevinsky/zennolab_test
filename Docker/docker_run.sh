@@ -7,8 +7,8 @@ read -r -p "Input dir: " input_dir
 read -r -p "Output dir: " output_dir
 
 
-docker run --rm \
+docker run --gpus all --rm \
 	--mount type=bind,source=${input_dir},target=/zennolab/input \
 	--mount type=bind,source=${output_dir},target=/zennolab/output \
 	zennolab:latest \
-	run_evaluation -i /zennolab/input -o /zennolab/output -d 'cpu'
+	run_evaluation -i /zennolab/input -o /zennolab/output -d
