@@ -7,8 +7,8 @@
 1. cd <dir>
 2. git clone https://github.com/MaxLevinsky/zennolab_test.git
 3. cd zennolab_test
-4. bash docker_build.sh
-5. bash docker_run.sh
+4. bash Docker/docker_build.sh
+5. bash Docker/docker_run.sh
 во время выполения docker_run.sh нужно будет указать директорию со входными данными и директорию для артефактов работы скрипта
 
 пример входных данных
