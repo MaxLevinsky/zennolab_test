@@ -1,7 +1,7 @@
 # FROM python:3.10-bullseye
 FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
 
-ENV PATH="${PATH}:/usr/local/path"
+ENV PATH="${CUDA_HOME}:/usr/local/path"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # ===========================================================
