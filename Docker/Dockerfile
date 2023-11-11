@@ -9,6 +9,8 @@ FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
 # Install apt dependencies
 # -----------------------------------------------------------
 
+WORKDIR /home
+
 # RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y \
@@ -18,7 +20,6 @@ RUN apt-get install -y \
         git \
         libgl1 \
         nano
-# RUN cd /home
 
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -39,7 +40,7 @@ RUN groupadd -g $GID user && \
 # Create new directories for mounting
 # -----------------------------------------------------------
 
-COPY ./ ./home/
+COPY ./ /home/
 
 RUN cd /home && \
     pip install .
