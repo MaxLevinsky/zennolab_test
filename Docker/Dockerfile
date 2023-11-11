@@ -1,6 +1,8 @@
 # FROM python:3.10-bullseye
 FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
 
+ENV PATH="$PATH:/usr/local/cuda"
+
 # ===========================================================
 # Install apt dependencies
 # -----------------------------------------------------------
@@ -47,7 +49,7 @@ RUN cd /home && \
 
 RUN pip install torch==2.1.0
 
-RUN export CUDA_HOME=/usr/local/cuda
+# RUN export CUDA_HOME=/usr/local/cuda
 
 RUN cd /home/src/GroundingDINO && \
     wget https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha2/groundingdino_swinb_cogcoor.pth
