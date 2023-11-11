@@ -1,4 +1,5 @@
-FROM python:3.10-bullseye
+# FROM python:3.10-bullseye
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
 
 # ===========================================================
 # Install apt dependencies
@@ -8,9 +9,10 @@ FROM python:3.10-bullseye
 RUN apt-get update
 RUN apt-get install -y \
         wget \
+        python3-pip \
+        git \
         libgl1 \
-        nano \
-        openssh-server
+        nano
 RUN cd /home
 
 RUN rm -rf /var/lib/apt/lists/*
@@ -32,7 +34,6 @@ RUN groupadd -g $GID user && \
 # Create new directories for mounting
 # -----------------------------------------------------------
 
-# RUN pip install .
 COPY ./ ./home/
 
 RUN cd /home && \
@@ -44,11 +45,15 @@ RUN mkdir -p /zennolab/input \
 RUN cd /home && \
     git submodule update --init --recursive
 
+RUN pip install torch==2.1.0
+
+RUN export CUDA_HOME=/usr/local/cuda
+
 RUN cd /home/src/GroundingDINO && \
-    pip install -e . && \
-    mkdir weights && \
-    wget -q https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha/groundingdino_swint_ogc.pth && \
     wget https://github.com/IDEA-Research/GroundingDINO/releases/download/v0.1.0-alpha2/groundingdino_swinb_cogcoor.pth
+
+RUN pip install -e /home/src/GroundingDINO/.
+    
 
 WORKDIR /home
 

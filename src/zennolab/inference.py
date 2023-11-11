@@ -5,7 +5,7 @@ import warnings
 import cv2
 import numpy as np
 import pandas as pd
-# from pathlib import Path
+from pathlib import Path
 import torch
 from tqdm import tqdm
 
@@ -46,7 +46,7 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: f
                 caption=promt,
                 box_threshold=box_trs,
                 text_threshold=text_trs,
-                device=device,
+                device='cuda',
             )
             # max_logit = np.argmax(logits.tolist())
             pred_boxes = boxes.tolist()
@@ -128,8 +128,8 @@ def calculate_and_save_metric(input_dir: str, output_dir: str):
 
 if __name__ == '__main__':
     now = dt.datetime.now()
-    calculate_and_save_metric('/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/input/sam',
-                              '/Users/nikitamarkov/Desktop/digital_roads/test_detection/data/output')
+    calculate_and_save_metric('/home/markov.n/data/tasks/squirrels_head',
+                              '/home/markov.n/zennolab_test/data/output')
     print(dt.datetime.now() - now)
 
 
