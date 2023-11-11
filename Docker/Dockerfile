@@ -18,7 +18,7 @@ RUN apt-get install -y \
         git \
         libgl1 \
         nano
-RUN cd /home
+# RUN cd /home
 
 RUN rm -rf /var/lib/apt/lists/*
 
