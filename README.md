@@ -1,7 +1,7 @@
 # zennolab_test
 
 ## общий подход
-применяем zero-shot object detection (**GroundingDino*), из полученных bounding boxes счтаем их центры и считаем метрику
+применяем zero-shot object detection (**GroundingDino*), из полученных bounding boxes считаем их центры и считаем метрику
 
 ## как запустить
 1. *git clone https://github.com/MaxLevinsky/zennolab_test.git*
