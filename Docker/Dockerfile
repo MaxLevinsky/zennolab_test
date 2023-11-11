@@ -1,7 +1,7 @@
 # FROM python:3.10-bullseye
 FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
 
-ENV PATH="$PATH:/usr/local/cuda"
+ENV PATH="${PATH}:/usr/local/path"
 
 # ===========================================================
 # Install apt dependencies
@@ -12,6 +12,7 @@ RUN apt-get update
 RUN apt-get install -y \
         wget \
         python3-pip \
+        libglib2.0-0 \
         git \
         libgl1 \
         nano
