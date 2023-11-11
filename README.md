@@ -6,9 +6,21 @@
 ## как запустить
 1. *git clone https://github.com/MaxLevinsky/zennolab_test.git*
 2. *cd zennolab_test*
-3. *bash Docker/docker_build.sh*
-4. **ДЛЯ ЗАПУСКА на ГПУ**: *bash Docker/docker_run.sh*
+
+### для запуска на GPU
+1. *bash Docker/docker_build.sh*
+2. *bash Docker/docker_run.sh*
+
 во время выполения docker_run.sh нужно будет указать директорию со входными данными и директорию для артефактов работы скрипта
+
+скрипт *docker_run.sh* запускается с параметром *--gpus all*, если нужно ограничить кол-во карт, этот параметр нужно исправить.
+
+### для запуска на CPU
+1. *bash Docker/cpu/docker_build.sh*
+2. *bash Docker/cpu/docker_run.sh*
+
+во время выполения docker_run.sh нужно будет указать директорию со входными данными и директорию для артефактов работы скрипта
+
 
 пример входных данных
 
@@ -17,7 +29,3 @@
             - <>.jpg
             - <>.json
         ...
-
-скрипт *docker_run.sh* запускается с параметром *--gpus all*, если нужно ограничить кол-во карт, этот параметр нужно исправить.
-
-5. **ДЛЯ ЗАПУСКА на CPU**: *bash Docker/docker_run_cpu.sh*
