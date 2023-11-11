@@ -2,8 +2,8 @@
 # FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
 FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
 
-ENV PATH="${CUDA_HOME}:/usr/local/path"
-ARG DEBIAN_FRONTEND=noninteractive
+# ENV PATH="${CUDA_HOME}:/usr/local/path"
+# ARG DEBIAN_FRONTEND=noninteractive
 
 # ===========================================================
 # Install apt dependencies
