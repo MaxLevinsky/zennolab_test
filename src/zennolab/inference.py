@@ -46,7 +46,7 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: f
                 caption=promt,
                 box_threshold=box_trs,
                 text_threshold=text_trs,
-                device='cuda',
+                device=device
             )
             # max_logit = np.argmax(logits.tolist())
             pred_boxes = boxes.tolist()
