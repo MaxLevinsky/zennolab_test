@@ -2,6 +2,7 @@
 FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
 
 ENV PATH="${PATH}:/usr/local/path"
+ARG DEBIAN_FRONTEND=noninteractive
 
 # ===========================================================
 # Install apt dependencies
