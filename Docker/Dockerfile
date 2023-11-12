@@ -1,6 +1,6 @@
 # FROM python:3.10-bullseye
-# FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
-FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
+FROM nvidia/cuda:12.1.1-cudnn8-devel-ubuntu20.04
+# FROM pytorch/pytorch:2.0.0-cuda11.7-cudnn8-runtime
 
 ENV PATH="${CUDA_HOME}:/usr/local/path"
 ARG DEBIAN_FRONTEND=noninteractive
@@ -52,7 +52,7 @@ RUN cd /home && \
     git submodule update --init --recursive
 
 RUN pip install Cython
-# RUN pip install torch==2.1.0
+RUN pip install torch==2.1.0
 
 # RUN export CUDA_HOME=/usr/local/cuda
 
