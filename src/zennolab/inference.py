@@ -5,7 +5,7 @@ import warnings
 import cv2
 import numpy as np
 import pandas as pd
-from pathlib import Path
+# from pathlib import Path
 import torch
 from tqdm import tqdm
 
@@ -26,8 +26,8 @@ def inference(data_dir: str, output_dir: str, box_trs: float = 0.28, text_trs: f
     else:
         device = 'cpu'
 
-    # root_gd = os.path.join('/home/src', 'GroundingDINO')
-    root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
+    root_gd = os.path.join('/content/zennolab_test/src', 'GroundingDINO')
+    # root_gd = os.path.join(Path(__file__).parents[1], 'GroundingDINO')
     ogc = os.path.join(root_gd, 'groundingdino/config/GroundingDINO_SwinB_cfg.py')  # GroundingDINO_SwinT_OGC, GroundingDINO_SwinB_cfg
     weights = os.path.join(root_gd, 'groundingdino_swinb_cogcoor.pth')  # groundingdino_swint_ogc, groundingdino_swinb_cogcoor
     model = load_model(model_config_path=ogc, model_checkpoint_path=weights)
